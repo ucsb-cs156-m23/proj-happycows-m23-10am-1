@@ -3,6 +3,12 @@ import { hasRole } from "main/utils/currentUser";
 
 // should take in a players list from a commons
 export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
+    const USD = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2,
+        useGrouping: false,
+    });
 
     const columns = [
         {
@@ -15,7 +21,14 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         },
         {
             Header: 'Total Wealth',
-            accessor: 'totalWealth',
+            id: 'totalWealth',
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.totalWealth);
+            },
+            Cell: (props) => {
+                return (
+                    <div style={{textAlign: "right"}}>{props.value}</div>)
+            }, 
         },
         {
             Header: 'Cows Owned',
