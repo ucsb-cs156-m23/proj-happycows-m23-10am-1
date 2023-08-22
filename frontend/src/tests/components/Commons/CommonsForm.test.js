@@ -18,6 +18,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe("CommonsForm tests", () => {
+  const today = new Date().toISOString().split('T')[0];
   const axiosMock = new AxiosMockAdapter(axios);
 
   beforeEach(() => {
@@ -84,37 +85,22 @@ describe("CommonsForm tests", () => {
     expect(submitButton).toBeInTheDocument();
     expect(screen.getByTestId("CommonsForm-Submit-Button")).toHaveTextContent("Create New Commons");
 
-
-    fireEvent.click(submitButton);
-    expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
-
     // check that each of the fields that has 
     // a validation error is marked as invalid
     // This helps with mutation coverage of code such as:
     //    isInvalid={!!errors.carryingCapacity}
 
-    [
-      "CommonsForm-name",
-      "CommonsForm-startingBalance",
-      "CommonsForm-cowPrice",
-      "CommonsForm-milkPrice",
-      "CommonsForm-startingDate",
-      "CommonsForm-degradationRate",
-      "CommonsForm-carryingCapacity",
-    ].forEach(
-      (testid) => {
-        const element = screen.getByTestId(testid);
-        expect(element).toBeInTheDocument();
-        expect(element).toHaveClass("is-invalid");
-      }
-    );
+    expect(screen.getByTestId("CommonsForm-name")).toHaveValue("CS156");
+    expect(screen.getByTestId("CommonsForm-startingBalance")).toHaveValue(10000);
+    expect(screen.getByTestId("CommonsForm-cowPrice")).toHaveValue(100);
+    expect(screen.getByTestId("CommonsForm-milkPrice")).toHaveValue(20);
+    expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(today);
+    expect(screen.getByTestId("CommonsForm-degradationRate")).toHaveValue(1);
+    expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(100);
 
+    fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: "invalidDate" } });
+    fireEvent.click(screen.getByTestId("CommonsForm-Submit-Button"));
+    expect(await screen.findByText(/Starting date is required/i)).toBeInTheDocument();
     // check that the other testids are present
 
     [
