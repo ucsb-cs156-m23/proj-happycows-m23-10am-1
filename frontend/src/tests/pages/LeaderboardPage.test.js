@@ -1,4 +1,4 @@
-import { screen, waitFor, render } from "@testing-library/react";
+import { screen, waitFor, render, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -163,6 +163,35 @@ describe("LeaderboardPage tests", () => {
             expect(axiosMock.history.get.length).toEqual(4);
         });
         expect(await screen.findByText("Total Wealth")).toBeInTheDocument();
+    });
+
+    test("navigate(-1) when Back button is clicked", async () => {
+        setupUser();
+        axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
+            "id": 1,
+            "name": "Anika's Commons",
+            "day": 5,
+            "startingDate": "2026-03-05T15:50:10",
+            "startingBalance": 200.50,
+            "totalPlayers": 50,
+            "cowPrice": 15,
+            "milkPrice": 10,
+            "degradationRate": .5,
+            "showLeaderboard": true,
+        });
+        axiosMock.onGet("/api/usercommons/commons/all", { params: { commonsId: 1} }).reply(200,[]);
+        const queryClient = new QueryClient();
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <LeaderboardPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        expect(await screen.findByTestId('Leaderboard-back')).toBeInTheDocument();
+        const backButton = screen.getByTestId('Leaderboard-back');
+        fireEvent.click(backButton);
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(-1));
     });
 
 });
