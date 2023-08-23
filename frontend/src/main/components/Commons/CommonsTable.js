@@ -4,10 +4,14 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
+import Modal from 'react-bootstrap/Modal';
 
 export default function CommonsTable({ commons, currentUser }) {
 
     const navigate = useNavigate();
+
+    const [isModalOpen, setModalOpen] = React.useState(false);
+    const [itemToDelete, setItemToDelete] = React.useState(null);
 
     const editCallback = (cell) => {
         navigate(`/admin/editcommons/${cell.row.values["commons.id"]}`)
@@ -19,9 +23,28 @@ export default function CommonsTable({ commons, currentUser }) {
         ["/api/commons/allplus"]
     );
 
-    const deleteCallback = async (cell) => { 
-        deleteMutation.mutate(cell); 
-    }
+    const openModal = (cell) => {
+        setItemToDelete(cell);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setItemToDelete(null);
+    };
+
+    const confirmDelete = () => {
+        deleteMutation.mutate(itemToDelete);
+        closeModal();
+    };
+
+    const deleteCallback = (cell) => {
+        openModal(cell);
+    };
+
+    // const deleteCallback = async (cell) => { 
+    //     deleteMutation.mutate(cell); 
+    // }
 
     const leaderboardCallback = (cell) => {
         navigate(`/leaderboard/${cell.row.values["commons.id"]}`)
@@ -92,9 +115,21 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    return <OurTable
-        data={commons}
-        columns={columnsToDisplay}
-        testid={testid}
-    />;
+    // return <OurTable
+    //     data={commons}
+    //     columns={columnsToDisplay}
+    //     testid={testid}
+    // />;
+    return (
+        <>
+            {isModalOpen && (
+                <Modal>
+                    <h3>Are you sure you want to delete this commons?</h3>
+                    <button onClick={confirmDelete}>Permanently Delete</button>
+                    <button onClick={closeModal}>Keep this Commons</button>
+                </Modal>
+            )}
+            <OurTable data={commons} columns={columnsToDisplay} testid={testid} />
+        </>
+    );
 };
