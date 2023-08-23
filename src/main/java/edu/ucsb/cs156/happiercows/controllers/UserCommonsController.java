@@ -117,7 +117,7 @@ public class UserCommonsController extends ApiController {
 
 
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
+          userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * userCommons.getCowHealth() / 100));
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
           userCommons.setCowsSold(userCommons.getCowsSold() + 1);
         }

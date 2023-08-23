@@ -203,9 +203,11 @@ public class UserCommonsControllerTests extends ControllerTestCase {
 
         UserCommons origUserCommons = getTestUserCommons();
         origUserCommons.setCowsSold(1);
+        origUserCommons.setCowHealth(80);
 
         UserCommons updatedUserCommons = getTestUserCommons();
-        updatedUserCommons.setTotalWealth(300 + testCommons.getCowPrice());
+        updatedUserCommons.setTotalWealth(300 + testCommons.getCowPrice() * 0.8);
+        updatedUserCommons.setCowHealth(80);
         updatedUserCommons.setNumOfCows(0);
         updatedUserCommons.setCowsSold(2);
 
