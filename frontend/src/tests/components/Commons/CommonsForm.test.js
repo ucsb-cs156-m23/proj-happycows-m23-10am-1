@@ -85,6 +85,9 @@ describe("CommonsForm tests", () => {
     expect(submitButton).toBeInTheDocument();
     expect(screen.getByTestId("CommonsForm-Submit-Button")).toHaveTextContent("Create New Commons");
 
+
+    //fireEvent.click(submitButton);
+
     // check that each of the fields that has 
     // a validation error is marked as invalid
     // This helps with mutation coverage of code such as:
@@ -98,9 +101,47 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-degradationRate")).toHaveValue(1);
     expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(100);
 
-    fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: "invalidDate" } });
-    fireEvent.click(screen.getByTestId("CommonsForm-Submit-Button"));
-    expect(await screen.findByText(/Starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByTestId("CommonsForm-name")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-startingBalance")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-cowPrice")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-milkPrice")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-startingDate")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-degradationRate")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-carryingCapacity")).not.toHaveClass("is-invalid");
+
+    fireEvent.change(screen.getByTestId("CommonsForm-name"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.click(submitButton);
+
+    expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+
+    // [
+    //   "CommonsForm-name",
+    //   "CommonsForm-startingBalance",
+    //   "CommonsForm-cowPrice",
+    //   "CommonsForm-milkPrice",
+    //   "CommonsForm-startingDate",
+    //   "CommonsForm-degradationRate",
+    //   "CommonsForm-carryingCapacity",
+    // ].forEach(
+    //   (testid) => {
+    //     const element = screen.getByTestId(testid);
+    //     expect(element).toBeInTheDocument();
+    //     expect(element).toHaveClass("is-invalid");
+    //   }
+    // );
+
     // check that the other testids are present
 
     [
