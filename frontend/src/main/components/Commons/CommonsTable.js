@@ -111,7 +111,7 @@ export default function CommonsTable({ commons, currentUser }) {
     // />;
 
     const deleteModal = (
-        <Modal data-testid="CommonsTable-Modal" show={showModal} onHide={() => setModalOpen(false)}>
+        <Modal data-testid="CommonsTable-Modal" show={isModalOpen} onHide={() => setModalOpen(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Confir Deletion</Modal.Title>
             </Modal.Header>
