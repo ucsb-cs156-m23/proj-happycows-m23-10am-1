@@ -5,7 +5,7 @@ import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtil
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 export default function CommonsTable({ commons, currentUser }) {
 
@@ -113,10 +113,10 @@ export default function CommonsTable({ commons, currentUser }) {
     const deleteModal = (
         <Modal data-testid="CommonsTable-Modal" show={isModalOpen} onHide={() => setModalOpen(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Confir Deletion</Modal.Title>
+                <Modal.Title>Delete Confirmation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Warning You Are Deleting a Commons
+                Warning: You Are Deleting a Commons
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" data-testid="CommonsTable-Modal-Cancel" onClick={() => setModalOpen(false)}>
