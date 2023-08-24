@@ -45,6 +45,4 @@ public class AverageCowHealthServiceTest {
 
         assertEquals(expectedAverage, actualAverage, 0.001);
     }
-
-    // TODO: You can add more tests for edge cases, exceptions, etc.
 }
