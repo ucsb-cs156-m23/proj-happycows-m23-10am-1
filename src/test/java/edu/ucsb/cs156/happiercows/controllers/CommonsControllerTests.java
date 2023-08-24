@@ -665,6 +665,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         String cAsJson = mapper.writeValueAsString(c);
 
         assertEquals(responseString, cAsJson);
+        assertEquals(c.getNumUsers(),1);
     }
 
     @WithMockUser(roles = {"USER"})
@@ -795,7 +796,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .totalWealth(0)
                 .numOfCows(1)
                 .build();
-
+                
+        c.setNumUsers(1);
         String requestBody = mapper.writeValueAsString(uc);
 
         when(userCommonsRepository.findByCommonsIdAndUserId(2L, 1L)).thenReturn(Optional.of(uc));
@@ -814,6 +816,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         String expectedString = "{\"message\":\"user with id 1 deleted from commons with id 2, 0 users remain\"}";
 
         assertEquals(responseString, expectedString);
+        assertEquals(c.getNumUsers(), 0);
     }
 
     @WithMockUser(roles = {"ADMIN"})
@@ -859,4 +862,79 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(actualCommonsPlus, expectedCommonsPlus);
     }
 
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void testEffectiveCapacityPerUserBiggerThanCarryingCapacity() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+
+
+        Commons commons = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .capacityPerUser(5)
+                .carryingCapacity(15)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
+
+        //simmulate 4 users
+        commons.setNumUsers(4);
+
+        assertEquals(commons.getEffectiveCapacity(), 20);
+
+    }
+
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void testEffectiveCapacityCarryingCapacityBiggerThanPerUser() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+        Commons commons = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .capacityPerUser(5)
+                .carryingCapacity(15)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
+
+
+        //simmulate 2 users
+        commons.setNumUsers(2);
+
+        assertEquals(commons.getEffectiveCapacity(), 15);
+        }
+
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void testCommonsReturnsCarryingCapacityWhenNoUsers() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+        Commons commons = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .capacityPerUser(5)
+                .carryingCapacity(15)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
+
+        assertEquals(commons.getEffectiveCapacity(), 15);
+    }
 }
