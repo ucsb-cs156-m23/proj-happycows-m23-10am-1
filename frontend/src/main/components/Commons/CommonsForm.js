@@ -154,26 +154,24 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         </Form.Group>
       </Row>
 
-      <Row className="mb-3">
-        <Form.Group as={Col} md="6">
-          <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
-          <Form.Control
-            data-testid={`${testid}-degradationRate`}
-            id="degradationRate"
-            type="number"
-            step="0.01"
-            isInvalid={!!errors.degradationRate}
-            {...register("degradationRate", {
-              valueAsNumber: true,
-              required: "Degradation rate is required",
-              min: {value: 0.00, message: "Degradation rate must be ≥ 0.00"},
-            })}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.degradationRate?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-degradationRate`}
+          id="degradationRate"
+          type="number"
+          step="0.001"
+          isInvalid={!!errors.degradationRate}
+          {...register("degradationRate", {
+            valueAsNumber: true,
+            required: "Degradation rate is required",
+            min: {value: 0.00, message: "Degradation rate must be ≥ 0.00"},
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.degradationRate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
 
       <Row className="mb-3">
         <Form.Group as={Col} md="6">
