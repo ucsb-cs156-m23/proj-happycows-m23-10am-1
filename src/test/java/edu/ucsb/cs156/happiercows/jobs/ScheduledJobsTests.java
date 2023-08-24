@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
 // @Slf4j
@@ -116,7 +117,24 @@ public class ScheduledJobsTests {
         verify(jobService, times(1)).runAsJob(mockJob);
         verify(commonStatsJobFactory, times(1)).create();
 
-    }
 
-  
+
+    }
+    @Test
+    void test_allJobsExecuteWithoutExceptions() {
+
+    // Arrange
+    Job job = Job.builder().build();
+    MockJobContextConsumer mockJob = new MockJobContextConsumer();
+
+    when(updateCowHealthJobFactory.create()).thenReturn(mockJob);
+    when(milkTheCowsJobFactory.create()).thenReturn(mockJob);
+    when(commonStatsJobFactory.create()).thenReturn(mockJob);
+    when(jobService.runAsJob(any())).thenReturn(job);
+
+    // Act & Assert
+    assertDoesNotThrow(() -> scheduledJobs.runUpdateCowHealthJobBasedOnCron());
+    assertDoesNotThrow(() -> scheduledJobs.runMilkTheCowsJobBasedOnCron());
+    assertDoesNotThrow(() -> scheduledJobs.runCommonStatsJobBasedOnCron());
+    }
 }
