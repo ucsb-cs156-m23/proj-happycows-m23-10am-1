@@ -1,12 +1,14 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import UsersTable from "main/components/Users/UsersTable"
+import { useHistory } from 'react-router-dom';
 
 import { useUsers } from "main/utils/users";
 const AdminUsersPage = () => {
 
     // const { data: users } = useUsers();
     const { data: users, isLoading, isError, error } = useUsers();
+    const history = useHistory();
     if (isLoading) {
         history.push('/');
         return null; 
