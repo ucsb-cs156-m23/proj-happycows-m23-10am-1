@@ -22,11 +22,11 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 <span class="fc" id="L22">            totalCows += userCommons.getNumOfCows();</span>
 <span class="fc" id="L23">        }</span>
 
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if(!userCommonsList.iterator().hasNext()){</span>
-<span class="nc" id="L26">            throw new IllegalArgumentException(&quot;Unable to get average cow health&quot;);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(!userCommonsList.iterator().hasNext()){</span>
+<span class="fc" id="L26">            throw new IllegalArgumentException(&quot;Unable to get average cow health&quot;);</span>
         }
 
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        return totalCows == 0 ? 0 :totalHealth / totalCows;</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        return totalCows == 0 ? 0 :totalHealth / totalCows;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
