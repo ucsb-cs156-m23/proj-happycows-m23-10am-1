@@ -7,6 +7,8 @@ const AdminUsersPage = () => {
 
     // const { data: users } = useUsers();
     const { data: users, isLoading, isError, error } = useUsers();
+    const abc = isLoading;
+    console.log(abc,"ascs");
     console.log(isLoading);
     console.log(isError);
     console.log(error);
