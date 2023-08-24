@@ -27,14 +27,8 @@ export default function CommonsTable({ commons, currentUser }) {
         navigate(`/leaderboard/${cell.row.values["commons.id"]}`)
     }
 
-    const downloadCallback = (cell) => {
-        const commonsId = cell.row.values["commons.id"];
-        const downloadUrl = `/api/commons/${commonsId}/download?commonsId=${commonsId}`;
-        window.location.assign(downloadUrl);
-    };
+    const downloadCallback = (cell) => window.location.href = `/api/commons/${cell.row.values["commons.id"]}/download?commonsId=${cell.row.values["commons.id"]}`;
     
-
-
     const columns = [
         {
             Header: 'id',
