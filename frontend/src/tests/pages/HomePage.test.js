@@ -68,7 +68,7 @@ describe("HomePage tests", () => {
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
-        expect(title.textContent).toEqual('Howdy Farmer');
+        expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
 
         expect(() => screen.getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
     });
@@ -103,7 +103,7 @@ describe("HomePage tests", () => {
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
-        expect(title.textContent).toEqual('Howdy Farmer');
+        expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
     });
 
     test("Redirects to the PlayPage when you click visit", async () => {
