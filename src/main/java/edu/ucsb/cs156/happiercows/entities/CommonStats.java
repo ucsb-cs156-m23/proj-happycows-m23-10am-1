@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +24,6 @@ public class CommonStats {
     private Long id;
     private Long commonsId;
     private Integer numCows;
-    private Double avg_Health;
+    private Double avgHealth;
     private LocalDateTime timestamp;
 }

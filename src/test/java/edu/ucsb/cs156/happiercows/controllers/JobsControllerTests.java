@@ -47,8 +47,11 @@ import edu.ucsb.cs156.happiercows.jobs.InstructorReportJobSingleCommonsFactory;
 import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.SetCowHealthJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.CommonStatsJob;
+import edu.ucsb.cs156.happiercows.jobs.CommonStatsJobFactory;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CommonStatsRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -76,6 +79,9 @@ public class JobsControllerTests extends ControllerTestCase {
         UserCommonsRepository userCommonsRepository;
 
         @MockBean
+        CommonStatsRepository commonStatsRepository;
+
+        @MockBean
         UpdateCowHealthJobFactory updateCowHealthJobFactory;
 
         @MockBean
@@ -89,6 +95,9 @@ public class JobsControllerTests extends ControllerTestCase {
 
         @MockBean
         InstructorReportJobSingleCommonsFactory instructorReportJobSingleCommonsFactory;
+
+        @MockBean
+        CommonStatsJobFactory commonStatsJobFactory;
 
         @WithMockUser(roles = { "ADMIN" })
         @Test
@@ -305,6 +314,23 @@ public class JobsControllerTests extends ControllerTestCase {
                 // act
                 MvcResult response = mockMvc
                                 .perform(post("/api/jobs/launch/instructorreportsinglecommons?commonsId=1")
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                String responseString = response.getResponse().getContentAsString();
+                log.info("responseString={}", responseString);
+                Job jobReturned = objectMapper.readValue(responseString, Job.class);
+
+                assertNotNull(jobReturned.getStatus());
+        }
+
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void admin_can_launch_common_stats_job() throws Exception {
+                // act
+                MvcResult response = mockMvc
+                                .perform(post("/api/jobs/launch/commonstats?commonsId=1")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
