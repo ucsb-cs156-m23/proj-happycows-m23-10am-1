@@ -207,4 +207,26 @@ describe("HomePage tests", () => {
         expect(title.textContent).toEqual('Howdy Farmer');
     });
 
+    test("renders greeting without a name when currentUser.root.user is null", () => {
+        const mockUser = {
+            root: {
+                user: null
+            }
+        };
+        axiosMock.onGet("/api/currentUser").reply(200, mockUser);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+    
+        const title = screen.getByTestId("homePage-title");
+        expect(title.textContent).toEqual('Howdy Farmer');
+    });
+    
+
 });
