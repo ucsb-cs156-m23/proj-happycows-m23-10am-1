@@ -104,12 +104,6 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    // return <OurTable
-    //     data={commons}
-    //     columns={columnsToDisplay}
-    //     testid={testid}
-    // />;
-
     const deleteModal = (
         <Modal data-testid="CommonsTable-Modal" show={isModalOpen} onHide={() => setModalOpen(false)}>
             <Modal.Header closeButton>
