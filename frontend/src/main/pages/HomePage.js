@@ -59,8 +59,8 @@ export default function HomePage() {
 
   let userFullName = "";
   if (currentUser?.root?.user) {
-    const { firstName, lastName } = currentUser.root.user;
-    userFullName = ` ${firstName} ${lastName}`;
+    const { givenName, familyName } = currentUser.root.user;
+    userFullName = ` ${givenName} ${familyName}`;
   }
   
   return (
