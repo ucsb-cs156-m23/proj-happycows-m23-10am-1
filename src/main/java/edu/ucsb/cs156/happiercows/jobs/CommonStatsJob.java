@@ -26,7 +26,7 @@ public class CommonStatsJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) {
-        ctx.log(message:"Starting to record common stats.");
+        ctx.log("Starting to record common stats.");
         Iterable<Commons> allCommons = commonsRepository.findAll();
 
         for (Commons commons : allCommons) {
