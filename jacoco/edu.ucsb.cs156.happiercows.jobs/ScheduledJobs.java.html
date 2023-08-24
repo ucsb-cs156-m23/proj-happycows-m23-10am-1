@@ -33,25 +33,38 @@ import lombok.extern.slf4j.Slf4j;
 
     @Autowired
     MilkTheCowsJobFactory milkTheCowsJobFactory;
+
+    @Autowired
+    CommonStatsJobFactory commonStatsJobFactory;
     
     @Scheduled(cron = &quot;${app.updateCowHealth.cron}&quot;, zone = &quot;${app.timezone}&quot;)
     public void runUpdateCowHealthJobBasedOnCron() {
-<span class="fc" id="L39">       log.info(&quot;runUpdateCowHealthJobBasedOnCron: running&quot;);</span>
+<span class="fc" id="L42">       log.info(&quot;runUpdateCowHealthJobBasedOnCron: running&quot;);</span>
 
-<span class="fc" id="L41">       JobContextConsumer updateCowHealthJob = updateCowHealthJobFactory.create();</span>
-<span class="fc" id="L42">       jobService.runAsJob(updateCowHealthJob);</span>
+<span class="fc" id="L44">       JobContextConsumer updateCowHealthJob = updateCowHealthJobFactory.create();</span>
+<span class="fc" id="L45">       jobService.runAsJob(updateCowHealthJob);</span>
     
-<span class="fc" id="L44">       log.info(&quot;runUpdateCowHealthJobBasedOnCron: launched job&quot;);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L47">       log.info(&quot;runUpdateCowHealthJobBasedOnCron: launched job&quot;);</span>
+<span class="fc" id="L48">    }</span>
 
     @Scheduled(cron = &quot;${app.milkTheCows.cron}&quot;, zone = &quot;${app.timezone}&quot;)
     public void runMilkTheCowsJobBasedOnCron() {
-<span class="fc" id="L49">       log.info(&quot;runMilkTheCowsJobBasedOnCron: running&quot;);</span>
+<span class="fc" id="L52">       log.info(&quot;runMilkTheCowsJobBasedOnCron: running&quot;);</span>
 
-<span class="fc" id="L51">       JobContextConsumer milkTheCowsJob = milkTheCowsJobFactory.create();</span>
-<span class="fc" id="L52">       jobService.runAsJob(milkTheCowsJob);</span>
+<span class="fc" id="L54">       JobContextConsumer milkTheCowsJob = milkTheCowsJobFactory.create();</span>
+<span class="fc" id="L55">       jobService.runAsJob(milkTheCowsJob);</span>
     
-<span class="fc" id="L54">       log.info(&quot;runMilkTheCowsJobBasedOnCron: launched job&quot;);</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L57">       log.info(&quot;runMilkTheCowsJobBasedOnCron: launched job&quot;);</span>
+<span class="fc" id="L58">    }</span>
+
+    @Scheduled(cron = &quot;${app.commonStats.cron}&quot;, zone = &quot;America/Los_Angeles&quot;)
+    public void runCommonStatsJobBasedOnCron() {
+<span class="fc" id="L62">       log.info(&quot;runCommonStatsJobBasedOnCron: running&quot;);</span>
+
+<span class="fc" id="L64">       JobContextConsumer commonStatsJob = commonStatsJobFactory.create();</span>
+<span class="fc" id="L65">       jobService.runAsJob(commonStatsJob);</span>
+
+<span class="fc" id="L67">       log.info(&quot;runCommonStatsJobBasedOnCron: launched job&quot;);</span>
+<span class="fc" id="L68">}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

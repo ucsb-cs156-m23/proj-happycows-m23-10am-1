@@ -117,7 +117,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 <span class="fc bfc" id="L119" title="All 2 branches covered.">        if(userCommons.getNumOfCows() &gt;= 1 ){</span>
-<span class="fc" id="L120">          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());</span>
+<span class="fc" id="L120">          userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * userCommons.getCowHealth() / 100));</span>
 <span class="fc" id="L121">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
 <span class="fc" id="L122">          userCommons.setCowsSold(userCommons.getCowsSold() + 1);</span>
         }
