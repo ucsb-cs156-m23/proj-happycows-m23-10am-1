@@ -8,6 +8,7 @@ import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from './../../assets/HomePageBackground.jpg';
 import { commonsNotJoined } from "main/utils/commonsUtils";
+import "main/components/css/HomePageTitle.css";
 
 export default function HomePage() {
   const [commonsJoined, setCommonsJoined] = useState([]);
@@ -59,7 +60,7 @@ export default function HomePage() {
   return (
     <div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <h1 data-testid="homePage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3">Howdy Farmer</h1>
+        <h1 data-testid="homePage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3 slide-in-animation">Howdy Farmer</h1>
         <Container>
           <Row>
             <Col sm><CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /></Col>
