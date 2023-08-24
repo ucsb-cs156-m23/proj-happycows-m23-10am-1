@@ -10,12 +10,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 @Tag(name = "Profits")
 @RequestMapping("/api/profits")
@@ -47,5 +57,31 @@ public class ProfitsController extends ApiController {
         Iterable<Profit> profits = profitRepository.findAllByUserCommons(userCommons);
 
         return profits;
+    }
+
+    @Operation(summary = "Get paged profits belonging to a user commons as a user via CommonsID")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/paged/commonsid")
+    public Page<Profit> pagedProfitsByCommonsId(
+        @Parameter(name = "commonsId") @RequestParam Long commonsId,
+        @Parameter(name = "page") @RequestParam(defaultValue = "0") int page,
+        @Parameter(name = "size") @RequestParam(defaultValue = "5") int size
+    ){
+        Long userId = getCurrentUser().getUser().getId();
+
+        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
+            .orElseThrow(() -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+
+        Iterable<Profit> allProfitsIterable = profitRepository.findAllByUserCommons(userCommons);
+
+        List<Profit> profitsList = new ArrayList<>();
+        allProfitsIterable.forEach(profitsList::add);
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, profitsList.size());
+
+        List<Profit> pagedProfits = profitsList.subList(fromIndex, toIndex);
+
+        return new PageImpl<>(pagedProfits, PageRequest.of(page, size), profitsList.size());
     }
 }
