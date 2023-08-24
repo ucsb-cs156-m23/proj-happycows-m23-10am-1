@@ -154,6 +154,20 @@ describe("HomePage tests", () => {
     
     });
 
-
+    test("displays user's full name when givenName and familyName are present", () => {
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+    
+        const title = screen.getByTestId("homePage-title");
+        expect(title).toBeInTheDocument();
+        expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
+    });
 
 });
