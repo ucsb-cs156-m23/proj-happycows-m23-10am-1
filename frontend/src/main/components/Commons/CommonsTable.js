@@ -25,7 +25,6 @@ export default function CommonsTable({ commons, currentUser }) {
     );
 
     const deleteCallback = async (cell) => { 
-        //deleteMutation.mutate(cell); 
         setItemToDelete(cell);
         setModalOpen(true);
     }

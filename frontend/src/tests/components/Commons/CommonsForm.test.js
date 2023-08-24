@@ -85,9 +85,6 @@ describe("CommonsForm tests", () => {
     expect(submitButton).toBeInTheDocument();
     expect(screen.getByTestId("CommonsForm-Submit-Button")).toHaveTextContent("Create New Commons");
 
-
-    //fireEvent.click(submitButton);
-
     // check that each of the fields that has 
     // a validation error is marked as invalid
     // This helps with mutation coverage of code such as:
@@ -125,22 +122,6 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
-
-    // [
-    //   "CommonsForm-name",
-    //   "CommonsForm-startingBalance",
-    //   "CommonsForm-cowPrice",
-    //   "CommonsForm-milkPrice",
-    //   "CommonsForm-startingDate",
-    //   "CommonsForm-degradationRate",
-    //   "CommonsForm-carryingCapacity",
-    // ].forEach(
-    //   (testid) => {
-    //     const element = screen.getByTestId(testid);
-    //     expect(element).toBeInTheDocument();
-    //     expect(element).toHaveClass("is-invalid");
-    //   }
-    // );
 
     // check that the other testids are present
 
