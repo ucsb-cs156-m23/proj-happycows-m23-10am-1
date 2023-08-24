@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommonStatsCSVHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">example</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.helpers</a> &gt; <span class="el_source">CommonStatsCSVHelper.java</span></div><h1>CommonStatsCSVHelper.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.helpers;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import edu.ucsb.cs156.happiercows.entities.CommonStats;
+
+public class CommonStatsCSVHelper {
+
+<span class="nc" id="L15">    private static final List&lt;String&gt; HEADERS = Arrays.asList(</span>
+            &quot;id&quot;, &quot;commonsId&quot;, &quot;numCows&quot;, &quot;avgHealth&quot;, &quot;timestamp&quot;
+    );
+
+    // Private constructor to prevent instantiation of utility class.
+    private CommonStatsCSVHelper() {}
+
+        /**
+     * Flush and close the given output stream and CSV printer.
+     * 
+     * @param out stream to close
+     * @param csvPrinter printer to close
+     * @throws IOException if there's an error during flushing or closing
+     */
+    private static void flushAndClose(ByteArrayOutputStream out, CSVPrinter csvPrinter) throws IOException {
+<span class="nc" id="L30">        csvPrinter.flush();</span>
+<span class="nc" id="L31">        csvPrinter.close();</span>
+<span class="nc" id="L32">        out.flush();</span>
+<span class="nc" id="L33">        out.close();</span>
+<span class="nc" id="L34">}</span>
+
+    /**
+     * Convert the given Iterable of CommonStats into a ByteArrayInputStream suitable for CSV export.
+     *
+     * @param lines The Iterable collection of CommonStats to be exported.
+     * @return A ByteArrayInputStream representation of the CSV data.
+     * @throws IOException if there's an error during CSV generation.
+     */
+    public static ByteArrayInputStream toCSV(Iterable&lt;CommonStats&gt; lines) throws IOException {
+<span class="nc" id="L44">        ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="nc" id="L45">        CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), CSVFormat.DEFAULT);</span>
+
+<span class="nc" id="L47">        csvPrinter.printRecord(HEADERS);</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (CommonStats stats : lines) {</span>
+<span class="nc" id="L50">            List&lt;String&gt; data = Arrays.asList(</span>
+<span class="nc" id="L51">                    String.valueOf(stats.getId()),</span>
+<span class="nc" id="L52">                    String.valueOf(stats.getCommonsId()),</span>
+<span class="nc" id="L53">                    String.valueOf(stats.getNumCows()),</span>
+<span class="nc" id="L54">                    String.valueOf(stats.getAvgHealth()),</span>
+<span class="nc" id="L55">                    String.valueOf(stats.getTimestamp())</span>
+            );
+<span class="nc" id="L57">            csvPrinter.printRecord(data);</span>
+<span class="nc" id="L58">        }</span>
+
+<span class="nc" id="L60">        flushAndClose(out, csvPrinter);</span>
+
+<span class="nc" id="L62">        return new ByteArrayInputStream(out.toByteArray());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
