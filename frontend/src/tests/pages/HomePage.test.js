@@ -66,8 +66,7 @@ describe("HomePage tests", () => {
         expect(mainDiv).toBeInTheDocument();
         expect(mainDiv).toHaveAttribute("style", "background-size: cover; background-image: url(HomePageBackground.jpg);");
 
-        await waitFor(() => expect(screen.getByTestId("homePage-title")).toBeInTheDocument());
-        const title = screen.getByTestId("homePage-title");
+        const title = await screen.findByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
@@ -102,8 +101,7 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(screen.getByTestId("homePage-title")).toBeInTheDocument());
-        const title = screen.getByTestId("homePage-title");
+        const title = await screen.findByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
