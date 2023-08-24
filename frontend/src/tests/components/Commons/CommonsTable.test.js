@@ -1,7 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CommonsTable, {setModalOpen} from "main/components/Commons/CommonsTable"
+import CommonsTable from "main/components/Commons/CommonsTable"
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
 import commonsPlusFixtures from "fixtures/commonsPlusFixtures";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
@@ -216,7 +216,7 @@ describe("UserTable tests", () => {
 
     expect(document.body).toHaveClass('modal-open');
 
-    const closeButton = await screen.getByLabelText('Close');
+    const closeButton = screen.getByLabelText('Close');
     fireEvent.click(closeButton);
 
     await waitFor(() => {
