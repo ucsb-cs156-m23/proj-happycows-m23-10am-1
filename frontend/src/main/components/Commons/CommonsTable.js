@@ -122,7 +122,7 @@ export default function CommonsTable({ commons, currentUser }) {
                 <Button variant="secondary" data-testid="CommonsTable-Modal-Cancel" onClick={() => setModalOpen(false)}>
                     Cancel
                 </Button>
-                <Button variant="secondary" data-testid="CommonsTable-Modal-Delete" onClick={confirmDelete}>
+                <Button variant="danger" data-testid="CommonsTable-Modal-Delete" onClick={confirmDelete}>
                     Delete
                 </Button>
             </Modal.Footer>
