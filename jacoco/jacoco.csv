@@ -37,7 +37,7 @@ example,edu.ucsb.cs156.happiercows.controllers,UserCommonsController,0,248,0,4,0
 example,edu.ucsb.cs156.happiercows.controllers,CommonsController,0,473,0,16,0,106,0,27,0,19
 example,edu.ucsb.cs156.happiercows.controllers,UsersController,0,16,0,0,0,4,0,2,0,2
 example,edu.ucsb.cs156.happiercows.controllers,JobsController,0,101,0,0,0,22,0,10,0,10
-example,edu.ucsb.cs156.happiercows.controllers,ProfitsController,0,40,0,0,0,7,0,4,0,4
+example,edu.ucsb.cs156.happiercows.controllers,ProfitsController,0,109,0,0,0,17,0,6,0,6
 example,edu.ucsb.cs156.happiercows.controllers,CSRFController,0,5,0,0,0,2,0,2,0,2
 example,edu.ucsb.cs156.happiercows.controllers,UserInfoController,0,6,0,0,0,2,0,2,0,2
 example,edu.ucsb.cs156.happiercows.controllers,ApiController,0,33,0,0,0,10,0,6,0,6
