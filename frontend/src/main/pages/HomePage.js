@@ -56,11 +56,17 @@ export default function HomePage() {
   //create a list of commons that the user hasn't joined for use in the "Join a New Commons" list.
  
   const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined);
+
+  let userFullName = "";
+  if (currentUser?.root?.user) {
+    const { firstName, lastName } = currentUser.root.user;
+    userFullName = ` ${firstName} ${lastName}`;
+  }
   
   return (
     <div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <h1 data-testid="homePage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3 slide-in-animation">Howdy Farmer</h1>
+        <h1 data-testid="homePage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3 slide-in-animation">Howdy Farmer {userFullName}</h1>
         <Container>
           <Row>
             <Col sm><CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /></Col>
