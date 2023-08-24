@@ -122,6 +122,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/Capacity Per User is required/i)).toBeInTheDocument();
 
     // check that the other testids are present
 
