@@ -30,36 +30,31 @@ public class CommonStatsJob implements JobContextConsumer {
 <span class="fc" id="L30">        Iterable&lt;Commons&gt; allCommons = commonsRepository.findAll();</span>
 
 <span class="fc bfc" id="L32" title="All 2 branches covered.">        for (Commons commons : allCommons) {</span>
-            try {
-<span class="fc" id="L34">                recordCommonStatsForCommon(ctx, commons);</span>
-<span class="nc" id="L35">            } catch (Exception e) {</span>
-<span class="nc" id="L36">                log.error(&quot;Failed to record stats for commons: &quot; + commons.getName(), e);</span>
-<span class="nc" id="L37">                ctx.log(&quot;Error recording stats for commons: &quot; + commons.getName());</span>
-<span class="fc" id="L38">            }</span>
-<span class="fc" id="L39">        }</span>
-<span class="fc" id="L40">    }</span>
+<span class="fc" id="L33">                recordCommonStatsForCommon(ctx, commons);</span>
+<span class="fc" id="L34">        }</span>
+<span class="fc" id="L35">    }</span>
 
     private void recordCommonStatsForCommon(JobContext ctx, Commons commons) {
-<span class="fc" id="L43">        Long commonId = commons.getId();</span>
-<span class="fc" id="L44">        ctx.log(&quot;Starting to record the common stats for commons: &quot; + commons.getName());</span>
+<span class="fc" id="L38">        Long commonId = commons.getId();</span>
+<span class="fc" id="L39">        ctx.log(&quot;Starting to record the common stats for commons: &quot; + commons.getName());</span>
 
-<span class="fc" id="L46">        Double avgHealth = averageCowHealthService.getAverageCowHealth(commonId);</span>
-<span class="fc" id="L47">        Iterable&lt;UserCommons&gt; userCommonsList = userCommonsRepository.findByCommonsId(commonId);</span>
+<span class="fc" id="L41">        Double avgHealth = averageCowHealthService.getAverageCowHealth(commonId);</span>
+<span class="fc" id="L42">        Iterable&lt;UserCommons&gt; userCommonsList = userCommonsRepository.findByCommonsId(commonId);</span>
 
-<span class="fc" id="L49">        int numCows = 0;</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (UserCommons userCommons : userCommonsList) {</span>
-<span class="fc" id="L51">            numCows += userCommons.getNumOfCows();</span>
-<span class="fc" id="L52">        }</span>
+<span class="fc" id="L44">        int numCows = 0;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (UserCommons userCommons : userCommonsList) {</span>
+<span class="fc" id="L46">            numCows += userCommons.getNumOfCows();</span>
+<span class="fc" id="L47">        }</span>
 
-<span class="fc" id="L54">        CommonStats stats = CommonStats.builder()</span>
-<span class="fc" id="L55">            .commonsId(commonId)</span>
-<span class="fc" id="L56">            .numCows(numCows)</span>
-<span class="fc" id="L57">            .avgHealth(avgHealth)</span>
-<span class="fc" id="L58">            .timestamp(LocalDateTime.now())</span>
-<span class="fc" id="L59">            .build();</span>
+<span class="fc" id="L49">        CommonStats stats = CommonStats.builder()</span>
+<span class="fc" id="L50">            .commonsId(commonId)</span>
+<span class="fc" id="L51">            .numCows(numCows)</span>
+<span class="fc" id="L52">            .avgHealth(avgHealth)</span>
+<span class="fc" id="L53">            .timestamp(LocalDateTime.now())</span>
+<span class="fc" id="L54">            .build();</span>
 
-<span class="fc" id="L61">        commonStatsRepository.save(stats);</span>
-<span class="fc" id="L62">        ctx.log(&quot;Saved stats for commons: &quot; + commons.getName());</span>
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L56">        commonStatsRepository.save(stats);</span>
+<span class="fc" id="L57">        ctx.log(&quot;Saved stats for commons: &quot; + commons.getName());</span>
+<span class="fc" id="L58">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
