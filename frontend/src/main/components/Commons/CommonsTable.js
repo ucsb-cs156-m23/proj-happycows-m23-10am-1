@@ -81,6 +81,11 @@ export default function CommonsTable({ commons, currentUser }) {
             accessor: row => row.commons.capacityPerUser,
             id: 'commons.capacityPerUser'
         },
+        {
+            Header: 'Effective Capacity',
+            accessor: row => row.commons.effectiveCapacity,
+            id: 'commons.effectiveCapacity'
+        },
     ];
 
     const testid = "CommonsTable";
