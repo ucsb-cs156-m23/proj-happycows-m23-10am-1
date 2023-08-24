@@ -23,6 +23,7 @@ describe("HomePage tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
     beforeEach(() => {
+        queryClient.clear();
         jest.clearAllMocks();
         axiosMock.reset();
         axiosMock.resetHistory();
@@ -50,7 +51,7 @@ describe("HomePage tests", () => {
         expect(title.textContent).toEqual('Howdy Farmer');
     });
 
-    test("renders with default for commons when api times out", () => {
+    test("renders with default for commons when api times out", async() => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").timeout();
         render(
@@ -65,6 +66,7 @@ describe("HomePage tests", () => {
         expect(mainDiv).toBeInTheDocument();
         expect(mainDiv).toHaveAttribute("style", "background-size: cover; background-image: url(HomePageBackground.jpg);");
 
+        await waitFor(() => expect(screen.getByTestId("homePage-title")).toBeInTheDocument());
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
@@ -88,7 +90,7 @@ describe("HomePage tests", () => {
         expect(title).toHaveAttribute("style", "font-size: 75px; border-radius: 7px; background-color: white; opacity: 0.9;");
     });
 
-    test("renders without crashing when lists are full", () => {
+    test("renders without crashing when lists are full", async() => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
@@ -100,6 +102,7 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
+        await waitFor(() => expect(screen.getByTestId("homePage-title")).toBeInTheDocument());
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
@@ -154,9 +157,10 @@ describe("HomePage tests", () => {
     
     });
 
-    test("displays user's full name when givenName and familyName are present", () => {
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+    test("renders greeting without a name when currentUser is undefined", () => {
+        axiosMock.onGet("/api/currentUser").reply(200, null);
         axiosMock.onGet("/api/commons/all").reply(200, []);
+        
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -166,8 +170,43 @@ describe("HomePage tests", () => {
         );
     
         const title = screen.getByTestId("homePage-title");
-        expect(title).toBeInTheDocument();
-        expect(title.textContent).toEqual('Howdy Farmer Phillip Conrad');
+        expect(title.textContent).toEqual('Howdy Farmer');
+    });
+
+    test("renders greeting without a name when currentUser.root is undefined", () => {
+        const mockUser = {};
+        axiosMock.onGet("/api/currentUser").reply(200, mockUser);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+    
+        const title = screen.getByTestId("homePage-title");
+        expect(title.textContent).toEqual('Howdy Farmer');
+    });
+
+    test("renders greeting without a name when currentUser.root.user is undefined", () => {
+        const mockUser = {
+            root: {}
+        };
+        axiosMock.onGet("/api/currentUser").reply(200, mockUser);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+    
+        const title = screen.getByTestId("homePage-title");
+        expect(title.textContent).toEqual('Howdy Farmer');
     });
 
 });
