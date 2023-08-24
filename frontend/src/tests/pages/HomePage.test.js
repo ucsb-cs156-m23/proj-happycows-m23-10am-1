@@ -155,8 +155,24 @@ describe("HomePage tests", () => {
     
     });
 
-    test("renders greeting without a name when currentUser is undefined", () => {
+    test("renders greeting without a name when currentUser is null", () => {
         axiosMock.onGet("/api/currentUser").reply(200, null);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+    
+        const title = screen.getByTestId("homePage-title");
+        expect(title.textContent).toEqual('Howdy Farmer');
+    });
+
+    test("renders greeting without a name when currentUser is undefined", () => {
+        axiosMock.onGet("/api/currentUser").reply(200, undefined);
         axiosMock.onGet("/api/commons/all").reply(200, []);
         
         render(
