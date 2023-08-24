@@ -51,6 +51,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "milkPrice": 10,
                 "degradationRate": 20.3,
                 "carryingCapacity": 100,
+                "capacityPerUser": 10,
                 "showLeaderboard": false,
                 "aboveCapacityHealthUpdateStrategy": "strat1",
                 "belowCapacityHealthUpdateStrategy": "strat2"
@@ -64,6 +65,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "milkPrice": 5,
                 "degradationRate": 40.3,
                 "carryingCapacity": 200,
+                "capacityPerUser": 20,
                 "showLeaderboard": false,
                 "aboveCapacityHealthUpdateStrategy": "strat2",
                 "belowCapacityHealthUpdateStrategy": "strat3"
@@ -99,6 +101,7 @@ describe("AdminEditCommonsPage tests", () => {
             const startingDateField = screen.getByLabelText(/Starting Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
+            const capacityPerUserField = screen.getByLabelText(/Capacity Per User/);
             const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText(/When above capacity/);
             const belowCapacityHealthUpdateStrategyField = screen.getByLabelText(/When below capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
@@ -110,6 +113,7 @@ describe("AdminEditCommonsPage tests", () => {
             expect(milkPriceField).toHaveValue(10);
             expect(degradationRateField).toHaveValue(20.3);
             expect(carryingCapacityField).toHaveValue(100);
+            expect(capacityPerUserField).toHaveValue(10);
             expect(aboveCapacityHealthUpdateStrategyField).toHaveValue("strat1");
             expect(belowCapacityHealthUpdateStrategyField).toHaveValue("strat2");
             expect(showLeaderboardField).not.toBeChecked();
@@ -133,6 +137,7 @@ describe("AdminEditCommonsPage tests", () => {
             const startingDateField = screen.getByLabelText(/Starting Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
+            const capacityPerUserField = screen.getByLabelText(/Capacity Per User/);
             const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText(/When above capacity/);
             const belowCapacityHealthUpdateStrategyField = screen.getByLabelText(/When below capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
@@ -144,6 +149,7 @@ describe("AdminEditCommonsPage tests", () => {
             expect(milkPriceField).toHaveValue(10);
             expect(degradationRateField).toHaveValue(20.3);
             expect(carryingCapacityField).toHaveValue(100);
+            expect(capacityPerUserField).toHaveValue(10);
             expect(aboveCapacityHealthUpdateStrategyField).toHaveValue("strat1");
             expect(belowCapacityHealthUpdateStrategyField).toHaveValue("strat2");
             expect(showLeaderboardField).not.toBeChecked();
@@ -159,6 +165,7 @@ describe("AdminEditCommonsPage tests", () => {
             fireEvent.change(milkPriceField, { target: { value: 5 } })
             fireEvent.change(degradationRateField, { target: { value: 40.3 } })
             fireEvent.change(carryingCapacityField, { target: { value: 200 } })
+            fireEvent.change(capacityPerUserField, { target: { value: 20 } })
             fireEvent.change(aboveCapacityHealthUpdateStrategyField, { target: { value: "strat2" } })
             fireEvent.change(belowCapacityHealthUpdateStrategyField, { target: { value: "strat3" } })
             fireEvent.click(showLeaderboardField)
@@ -179,6 +186,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "startingDate": "2022-03-07T00:00:00.000Z",
                 "degradationRate": 40.3,
                 "carryingCapacity": 200,
+                "capacityPerUser": 20,
                 "aboveCapacityHealthUpdateStrategy": "strat2",
                 "belowCapacityHealthUpdateStrategy": "strat3",
                 "showLeaderboard": true,

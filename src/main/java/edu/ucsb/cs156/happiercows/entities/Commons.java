@@ -30,6 +30,7 @@ public class Commons {
     private boolean showLeaderboard;
 
     private int carryingCapacity;
+    private int capacityPerUser;
     private double degradationRate;
 
     // these defaults match old behavior

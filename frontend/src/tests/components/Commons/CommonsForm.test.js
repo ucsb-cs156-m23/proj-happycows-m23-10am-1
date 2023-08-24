@@ -49,6 +49,7 @@ describe("CommonsForm tests", () => {
       /Starting Date/,
       /Degradation Rate/,
       /Carrying Capacity/,
+      /Capacity Per User/,
       /Show Leaderboard\?/,
       /When below capacity/,
       /When above capacity/,
@@ -105,6 +106,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-startingDate")).not.toHaveClass("is-invalid");
     expect(screen.getByTestId("CommonsForm-degradationRate")).not.toHaveClass("is-invalid");
     expect(screen.getByTestId("CommonsForm-carryingCapacity")).not.toHaveClass("is-invalid");
+    expect(screen.getByTestId("CommonsForm-capacityPerUser",)).not.toHaveClass("is-invalid");
 
     fireEvent.change(screen.getByTestId("CommonsForm-name"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
@@ -113,6 +115,7 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "" } });
     fireEvent.click(submitButton);
 
     expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
@@ -122,6 +125,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/Capacity Per User is required/i)).toBeInTheDocument();
 
     // check that the other testids are present
 

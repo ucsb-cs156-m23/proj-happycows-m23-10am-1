@@ -12,6 +12,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 10,
             "belowCapacityHealthUpdateStrategy": "Noop",
             "aboveCapacityHealthUpdateStrategy": "Noop"
         },
@@ -27,6 +28,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 123,
+            "capacityPerUser": 11,
             "belowCapacityHealthUpdateStrategy": "Linear",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -42,6 +44,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 42,
+            "capacityPerUser": 13,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }
@@ -59,6 +62,8 @@ const commonsFixtures = {
                 "milkPrice": 10,
                 "degradationRate": .5,
                 "showLeaderboard": true,
+                "capacityPerUser": 5,
+                
                 "carryingCapacity": 314,
                 "belowCapacityHealthUpdateStrategy": "Constant",
                 "aboveCapacityHealthUpdateStrategy": "Linear"
@@ -75,6 +80,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 1,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -87,6 +93,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 5,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -99,6 +106,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 5,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -111,6 +119,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 2,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -123,6 +132,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 2,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -135,6 +145,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 2,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -147,6 +158,7 @@ const commonsFixtures = {
             "degradationRate": .5,
             "showLeaderboard": true,
             "carryingCapacity": 100,
+            "capacityPerUser": 2,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }
