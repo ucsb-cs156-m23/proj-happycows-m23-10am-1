@@ -1,7 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CommonsTable from "main/components/Commons/CommonsTable"
+import CommonsTable, {setModalOpen} from "main/components/Commons/CommonsTable"
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
 import commonsPlusFixtures from "fixtures/commonsPlusFixtures";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
@@ -102,13 +102,22 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-Leaderboard-button`)).toHaveClass("btn-secondary");
   });
 
-  test("the correct parameters are passed to useBackendMutation when Delete is clicked", async () => {
+  const mockMutate = jest.fn();
+  const mockUseBackendMutation = {
+    mutate: mockMutate,
+  };
+
+  beforeEach(() => {
+    jest.spyOn(useBackendModule, "useBackendMutation").mockReturnValue(mockUseBackendMutation);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("Delete modal opens when Delete is clicked", async () => {
 
     const currentUser = currentUserFixtures.adminUser;
-
-
-    // https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
-    const useBackendMutationSpy = jest.spyOn(useBackendModule, 'useBackendMutation');
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -119,20 +128,102 @@ describe("UserTable tests", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId("CommonsTable-cell-row-0-col-Delete-button")).toBeInTheDocument();
+      expect(document.body).not.toHaveClass('modal-open');
     });
 
     const deleteButton = screen.getByTestId("CommonsTable-cell-row-0-col-Delete-button");
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(useBackendMutationSpy).toHaveBeenCalledWith(
-        cellToAxiosParamsDelete,
-        { onSuccess: onDeleteSuccess },
-        ["/api/commons/allplus"]
+      expect(document.body).toHaveClass('modal-open');
+    });
+  });
+
+    test("Delete commons when Delete is clicked", async () => {
+
+      const currentUser = currentUserFixtures.adminUser;
+  
+  
+      // https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
+      const useBackendMutationSpy = jest.spyOn(useBackendModule, 'useBackendMutation');
+  
+      render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
       );
+  
+      const deleteButton = screen.getByTestId("CommonsTable-cell-row-0-col-Delete-button");
+      fireEvent.click(deleteButton);
+      
+      const doubleDeleteButton = await screen.findByTestId("CommonsTable-Modal-Delete");
+      fireEvent.click(doubleDeleteButton);
+  
+      await waitFor(() => {
+        expect(useBackendMutationSpy).toHaveBeenCalledWith(
+          cellToAxiosParamsDelete,
+          { onSuccess: onDeleteSuccess },
+          ["/api/commons/allplus"]
+        );
+      });
+
+      await waitFor(() => {
+        expect(document.body).not.toHaveClass('modal-open');
+      });
+  });
+
+  test("Cancel deletion when Cancel is clicked", async () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    const deleteButton = screen.getByTestId("CommonsTable-cell-row-0-col-Delete-button");
+    fireEvent.click(deleteButton);
+
+    const cancelButton = await screen.findByTestId('CommonsTable-Modal-Cancel');
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(document.body).not.toHaveClass('modal-open');
     });
 
+    expect(mockMutate).not.toHaveBeenCalled();
+  });
+
+  test("Pressing escape cancels deletion", async () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    const deleteButton = screen.getByTestId("CommonsTable-cell-row-0-col-Delete-button");
+    fireEvent.click(deleteButton);
+
+    expect(document.body).toHaveClass('modal-open');
+
+    const closeButton = await screen.getByLabelText('Close');
+    fireEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(document.body).not.toHaveClass('modal-open');
+    });
+
+    expect(mockMutate).not.toHaveBeenCalled();
   });
 
 });
