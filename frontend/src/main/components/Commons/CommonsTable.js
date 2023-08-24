@@ -4,10 +4,15 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 export default function CommonsTable({ commons, currentUser }) {
 
     const navigate = useNavigate();
+
+    const [isModalOpen, setModalOpen] = React.useState(false);
+    const [itemToDelete, setItemToDelete] = React.useState(null);
 
     const editCallback = (cell) => {
         navigate(`/admin/editcommons/${cell.row.values["commons.id"]}`)
@@ -20,7 +25,13 @@ export default function CommonsTable({ commons, currentUser }) {
     );
 
     const deleteCallback = async (cell) => { 
-        deleteMutation.mutate(cell); 
+        setItemToDelete(cell);
+        setModalOpen(true);
+    }
+
+    const confirmDelete = async () => {
+        deleteMutation.mutate(itemToDelete);
+        setModalOpen(false);
     }
 
     const leaderboardCallback = (cell) => {
@@ -97,9 +108,29 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    return <OurTable
-        data={commons}
-        columns={columnsToDisplay}
-        testid={testid}
-    />;
+    const deleteModal = (
+        <Modal data-testid="CommonsTable-Modal" show={isModalOpen} onHide={() => setModalOpen(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                Warning: You Are Deleting a Commons
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" data-testid="CommonsTable-Modal-Cancel" onClick={() => setModalOpen(false)}>
+                    Cancel
+                </Button>
+                <Button variant="danger" data-testid="CommonsTable-Modal-Delete" onClick={confirmDelete}>
+                    Delete
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+
+    return (
+        <>
+            <OurTable data={commons} columns={columnsToDisplay} testid={testid} />
+            {deleteModal}
+        </>
+    );
 };
