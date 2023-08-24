@@ -7,6 +7,10 @@ const AdminUsersPage = () => {
 
     // const { data: users } = useUsers();
     const { data: users, isLoading, isError, error } = useUsers();
+    if (isLoading) {
+        history.push('/');
+        return null; 
+    }
     const abc = isLoading;
     console.log(abc,"ascs");
     console.log(isLoading);
